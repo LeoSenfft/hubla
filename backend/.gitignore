@@ -1,0 +1,26 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Dependências do frontend (caso haja)
+frontend/node_modules/
+
+# Arquivos de logs
+*.log
+
+# Arquivos de ambiente
+.env
+
+# Arquivos gerados pelo sistema operacional
+.DS_Store
+Thumbs.db
+
+# Diretórios temporários
+tmp/
+temp/
