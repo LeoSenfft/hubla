@@ -2,12 +2,13 @@ import express from "express";
 import { Client } from "pg";
 import dotenv from "dotenv";
 import { router } from "./routes";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
-router;
+app.use(cors());
 
 const client = new Client({
   host: process.env.DB_HOST,
