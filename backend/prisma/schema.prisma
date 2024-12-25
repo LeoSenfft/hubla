@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -14,6 +15,25 @@ datasource db {
 }
 
 model Sale {
-  id   Int @id @default(autoincrement())
-  type Int
+  id        Int       @id @default(autoincrement())
+  type      SaleTypes @relation(fields: [typeId], references: [id])
+  typeId    Int
+  saleDate  DateTime
+  product   String
+  value     Float
+  vendor    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("sales")
+}
+
+model SaleTypes {
+  id          Int    @id @default(autoincrement())
+  value       Int    @unique
+  description String
+  nature      String
+  sales       Sale[]
+
+  @@map("sale_types")
 }
