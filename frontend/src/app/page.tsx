@@ -7,6 +7,7 @@ import axiosInstance from "@/lib/axios-instance";
 import { Button } from "@/components/ui/button";
 import { useSales } from "./hooks/sales";
 import { useToast } from "@/hooks/use-toast";
+import { SalesTable } from "@/components/SalesTable";
 
 export default function Home() {
   const { toast } = useToast();
@@ -18,11 +19,15 @@ export default function Home() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!form.file) {
+    if (isLoading) {
       return;
     }
 
-    if (isLoading) {
+    if (!form.file) {
+      toast({
+        title: "Adicione um arquivo primeiro!",
+      });
+
       return;
     }
 
@@ -40,7 +45,7 @@ export default function Home() {
           description: resp.data.message,
         });
 
-        setSales(resp.data.data);
+        setSales((previous) => [...previous, ...resp.data.data]);
       }
     } catch (error: any) {
       toast({
@@ -75,39 +80,7 @@ export default function Home() {
           </Button>
         </form>
 
-        {isSalesLoading && <div className="text-center">Carregando...</div>}
-
-        {error && <div className="text-center text-red-500">{error}</div>}
-
-        {sales && `Total de vendas: ${sales.length}`}
-
-        <table className="mt-6 w-full table-auto border">
-          <thead className="sticky top-0 bg-slate-200">
-            <tr>
-              <td className="uppercase font-bold p-4">Nome</td>
-              <td className="uppercase font-bold p-4">Vendedor</td>
-              <td className="uppercase font-bold p-4">Valor</td>
-            </tr>
-          </thead>
-
-          <tbody>
-            {sales.map((sale) => (
-              <tr
-                className="py-4 pb-0 even:bg-slate-50 odd:bg-white"
-                key={sale.id}
-              >
-                <td className="p-4">{sale.product.description}</td>
-                <td className="p-4">{sale.user.name}</td>
-                <td className="p-4">
-                  {sale.value.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  })}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <SalesTable sales={sales} isLoading={isSalesLoading} error={error} />
       </div>
     </div>
   );
