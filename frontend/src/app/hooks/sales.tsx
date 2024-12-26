@@ -11,33 +11,33 @@ export function useSales() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function main() {
-      if (isLoading) {
-        return;
-      }
-
-      setError(null);
-
-      try {
-        setIsLoading(true);
-        const resp = await axiosInstance.get("/");
-
-        setSales(resp.data.data ?? []);
-      } catch (error: any) {
-        toast({
-          variant: "destructive",
-          title: "Algo deu errado.",
-          description: error.response.data.message,
-        });
-        setError(error.response.data.message);
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    main();
+    refetch();
   }, []);
 
-  return { sales, setSales, isLoading, error };
+  async function refetch() {
+    if (isLoading) {
+      return;
+    }
+
+    setError(null);
+
+    try {
+      setIsLoading(true);
+      const resp = await axiosInstance.get("/");
+
+      setSales(resp.data.data ?? []);
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+        description: error.response.data.message,
+      });
+      setError(error.response.data.message);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return { sales, setSales, isLoading, error, refetch };
 }
