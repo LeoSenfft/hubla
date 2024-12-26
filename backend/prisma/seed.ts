@@ -5,7 +5,9 @@ const client = new PrismaClient();
 const load = async () => {
   try {
     console.log("Starting seed...");
+    await setUsers();
     await setSaleTypes();
+    await setProducts();
   } catch (error) {
     console.error(error);
     process.exit(1);
@@ -48,5 +50,85 @@ async function setSaleTypes() {
     console.log("Added default sale types");
   } catch (error) {
     console.error("Error in setSaleTypes:", error);
+  }
+}
+
+async function setUsers() {
+  try {
+    await client.user.createMany({
+      data: [
+        {
+          id: 1,
+          name: "ADMIN",
+          balance: 0,
+        },
+        {
+          id: 2,
+          name: "JOSE CARLOS",
+          balance: 0,
+        },
+        {
+          id: 3,
+          name: "MARIA CANDIDA",
+          balance: 0,
+        },
+        {
+          id: 4,
+          name: "THIAGO OLIVEIRA",
+          balance: 0,
+        },
+        {
+          id: 5,
+          name: "ELIANA NOGUEIRA",
+          balance: 0,
+        },
+        {
+          id: 6,
+          name: "CARLOS BATISTA",
+          balance: 0,
+        },
+        {
+          id: 7,
+          name: "CAROLINA MACHADO",
+          balance: 0,
+        },
+        {
+          id: 8,
+          name: "CELSO DE MELO",
+          balance: 0,
+        },
+      ],
+      skipDuplicates: true,
+    });
+
+    console.log("Added default users");
+  } catch (error) {
+    console.error("Error in setUsers:", error);
+  }
+}
+
+async function setProducts() {
+  try {
+    await client.product.createMany({
+      data: [
+        {
+          description: "CURSO DE BEM-ESTAR",
+          vendorId: 2,
+        },
+        {
+          description: "DOMINANDO INVESTIMENTOS",
+          vendorId: 3,
+        },
+        {
+          description: "DESENVOLVEDOR FULL STACK",
+          vendorId: 5,
+        },
+      ],
+      skipDuplicates: true,
+    });
+
+    console.log("Added default products");
+  } catch (error) {
+    console.error("Error in setProducts:", error);
   }
 }
