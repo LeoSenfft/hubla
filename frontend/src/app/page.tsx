@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import axiosInstance from "@/lib/axios-instance";
 import { Button } from "@/components/ui/button";
-import { useSales } from "./hooks/sales";
+import { useSales } from "@/hooks/sales";
 import { useToast } from "@/hooks/use-toast";
 import { SalesTable } from "@/components/SalesTable";
 
