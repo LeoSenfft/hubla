@@ -9,7 +9,13 @@ const client = new PrismaClient();
 
 router.get("/", async (req, res) => {
   try {
-    const data = await client.sale.findMany({ include: { type: true } });
+    const data = await client.sale.findMany({
+      include: {
+        type: true,
+        product: { include: { vendor: true } },
+        user: true,
+      },
+    });
 
     res.status(200).json({
       status: 200,
@@ -39,6 +45,25 @@ router.post("/", multer(multerConfig).single("file"), async (req, res) => {
     res.status(500).json({
       status: 500,
       message: "Ocorreu um error ao tentar enviar os dados ao servidor!",
+    });
+  }
+});
+
+router.get("/users", async (req, res) => {
+  try {
+    const data = await client.user.findMany();
+
+    res.status(200).json({
+      status: 200,
+      data: data,
+      message: "Dados obtidos com sucesso!",
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      status: 500,
+      message: "Ocorreu um error ao tentar buscar os dados do servidor!",
     });
   }
 });
