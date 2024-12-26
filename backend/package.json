@@ -4,10 +4,8 @@
   "main": "src/server.ts",
   "scripts": {
     "start": "tsc && node dist/server.js",
-    "dev": "nodemon",
-    "build": "tsc"
-  },
-  "prisma": {
+    "dev": "npx prisma generate && npm run seed && nodemon",
+    "build": "tsc",
     "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
