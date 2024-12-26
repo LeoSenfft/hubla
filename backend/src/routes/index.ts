@@ -11,33 +11,34 @@ router.get("/", async (req, res) => {
   try {
     const data = await client.sale.findMany({ include: { type: true } });
 
-    res.json({
+    res.status(200).json({
       status: 200,
       data: data,
-      message: "Sucesso!",
+      message: "Dados obtidos com sucesso!",
     });
   } catch (error) {
     console.error(error);
 
-    res.json({
+    res.status(500).json({
       status: 500,
-      message: error,
+      message: "Ocorreu um error ao tentar buscar os dados do servidor!",
     });
   }
 });
 
-router.post("/", multer(multerConfig).single("file"), (req, res) => {
+router.post("/", multer(multerConfig).single("file"), async (req, res) => {
   try {
-    const message = readFile(req.file);
+    const data = await readFile(req.file);
 
-    res.json({
+    res.status(201).json({
       status: 201,
-      message,
+      data,
+      message: "Dados obtidos com sucesso!",
     });
   } catch (error) {
-    res.json({
+    res.status(500).json({
       status: 500,
-      message: error,
+      message: "Ocorreu um error ao tentar enviar os dados ao servidor!",
     });
   }
 });
