@@ -42,19 +42,6 @@ export default function PageSaldos() {
                 ))}
               </tbody>
             </table>
-
-            {/* <div className="grid grid-cols-cards gap-6">
-              {users.map((user) => (
-                <div className="bg-slate-500 text-white p-4" key={user.id}>
-                  Nome: {user.name} <br />
-                  Saldo:{" "}
-                  {user.balance.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  })}
-                </div>
-              ))}
-            </div> */}
           </>
         ) : (
           "Nenhum usuário encontrado"
