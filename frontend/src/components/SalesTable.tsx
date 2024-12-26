@@ -19,7 +19,7 @@ export function SalesTable({ sales, error, isLoading }: SalesTableProps) {
       <table className="mt-6 w-full table-auto border">
         <thead className="sticky top-0 bg-slate-200">
           <tr>
-            <td className="uppercase font-bold p-4">Nome</td>
+            <td className="uppercase font-bold p-4">Produto</td>
             <td className="uppercase font-bold p-4">Vendedor</td>
             <td className="uppercase font-bold p-4">Valor</td>
           </tr>
