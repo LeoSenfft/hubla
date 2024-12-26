@@ -14,18 +14,48 @@ export default function PageSaldos() {
         {error && <div className="text-center text-red-500">{error}</div>}
 
         {users ? (
-          <div className="grid grid-cols-cards gap-6">
-            {users.map((user) => (
-              <div className="bg-slate-500 text-white p-4" key={user.id}>
-                Nome: {user.name} <br />
-                Saldo:{" "}
-                {user.balance.toLocaleString("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                })}
-              </div>
-            ))}
-          </div>
+          <>
+            <h2 className="mb-4">Lista de usuários:</h2>
+
+            <table className="mt-6 w-full table-auto border">
+              <thead className="sticky top-0 bg-slate-200">
+                <tr>
+                  <td className="uppercase font-bold p-4">Nome</td>
+                  <td className="uppercase font-bold p-4">Saldo</td>
+                </tr>
+              </thead>
+
+              <tbody>
+                {users.map((user) => (
+                  <tr
+                    className="py-4 pb-0 even:bg-slate-50 odd:bg-white"
+                    key={user.id}
+                  >
+                    <td className="p-4">{user.name}</td>
+                    <td className="p-4">
+                      {user.balance.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* <div className="grid grid-cols-cards gap-6">
+              {users.map((user) => (
+                <div className="bg-slate-500 text-white p-4" key={user.id}>
+                  Nome: {user.name} <br />
+                  Saldo:{" "}
+                  {user.balance.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </div>
+              ))}
+            </div> */}
+          </>
         ) : (
           "Nenhum usuário encontrado"
         )}
