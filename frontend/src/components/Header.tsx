@@ -8,7 +8,7 @@ export function Header() {
       <div className="container">
         <nav className="flex justify-center">
           <HeaderLink href={"/"}>Home</HeaderLink>
-          <HeaderLink href={"/transacoes"}>Transações</HeaderLink>
+          <HeaderLink href={"/saldos"}>Saldos</HeaderLink>
         </nav>
       </div>
     </header>
