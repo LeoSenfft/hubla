@@ -30,7 +30,6 @@ model Sale {
 
 model SaleTypes {
   id          Int    @id @default(autoincrement())
-  value       Int    @unique
   description String
   nature      String
   sales       Sale[]
