@@ -1,6 +1,7 @@
 import { PrismaClient, type Prisma, type Sale } from "@prisma/client";
 import fs from "fs";
 import readline from "readline";
+import { getBrazilTime } from "../utils/getBrazilTime";
 
 const client = new PrismaClient();
 
@@ -78,7 +79,7 @@ export async function readFile(file?: Express.Multer.File) {
 
     const payload = {
       typeId: parseInt(type),
-      saleDate: new Date(saleDate),
+      saleDate: getBrazilTime(new Date(saleDate)),
       productId: productObj.id,
       value: parseFloat(value) / 100,
       userId: vendorObj.id,
@@ -126,6 +127,10 @@ async function recalculateUserAccount(sale: SaleWithProduct) {
   if (sale.typeId === 4) {
     userToUpdate = sale.userId;
   }
+
+  console.log(
+    `Movimentação na conta de ${userToUpdate} no valor de ${balanceToIncrement}`
+  );
 
   await client.user.update({
     where: { id: userToUpdate },
