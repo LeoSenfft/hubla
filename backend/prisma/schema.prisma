@@ -19,9 +19,11 @@ model Sale {
   type      SaleTypes @relation(fields: [typeId], references: [id])
   typeId    Int
   saleDate  DateTime
-  product   String
   value     Float
-  vendor    String
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  product   Product   @relation(fields: [productId], references: [id])
+  productId Int
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
@@ -29,10 +31,49 @@ model Sale {
 }
 
 model SaleTypes {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   description String
   nature      String
   sales       Sale[]
+  createdAt   DateTime @default(now())
 
   @@map("sale_types")
+}
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  description String
+  vendorId    Int
+  vendor      User      @relation("ProductVendor", fields: [vendorId], references: [id])
+  partners    Partner[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  Sale        Sale[]
+
+  @@map("products")
+}
+
+model Partner {
+  id        Int      @id @default(autoincrement())
+  partnerId Int
+  partner   User     @relation(fields: [partnerId], references: [id])
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("partners")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  balance   Float
+  sales     Sale[]
+  products  Product[] @relation("ProductVendor")
+  partners  Partner[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("users")
 }
