@@ -88,6 +88,16 @@ export async function readFile(file?: Express.Multer.File) {
     new_sales.push(payload);
   }
 
+  return new_sales;
+}
+
+export async function createSales(
+  new_sales: Omit<Sale, "id" | "createdAt" | "updatedAt">[] | undefined
+) {
+  if (!new_sales) {
+    throw new Error("Nenhuma transação encontrada");
+  }
+
   const createdSales = await Promise.all(
     new_sales.map((sale) =>
       client.sale.create({
