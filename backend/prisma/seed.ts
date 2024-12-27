@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 const client = new PrismaClient();
 
@@ -54,6 +55,9 @@ async function setSaleTypes() {
 }
 
 async function setUsers() {
+  const salt = await bcrypt.genSalt();
+  const password = await bcrypt.hash("123456", salt);
+
   try {
     await client.user.createMany({
       data: [
@@ -61,41 +65,49 @@ async function setUsers() {
           id: 1,
           name: "ADMIN",
           balance: 0,
+          password,
         },
         {
           id: 2,
           name: "JOSE CARLOS",
           balance: 0,
+          password,
         },
         {
           id: 3,
           name: "MARIA CANDIDA",
           balance: 0,
+          password,
         },
         {
           id: 4,
           name: "THIAGO OLIVEIRA",
           balance: 0,
+          password,
         },
         {
           id: 5,
           name: "ELIANA NOGUEIRA",
           balance: 0,
+          password,
         },
         {
           id: 6,
           name: "CARLOS BATISTA",
           balance: 0,
+          password,
         },
         {
           id: 7,
           name: "CAROLINA MACHADO",
           balance: 0,
+          password,
         },
         {
           id: 8,
           name: "CELSO DE MELO",
           balance: 0,
+          password,
         },
       ],
       skipDuplicates: true,
