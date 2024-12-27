@@ -1,69 +1,61 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import multer from "multer";
 import multerConfig from "../config/multer";
-import { readFile } from "../services/sales-service";
-import { PrismaClient } from "@prisma/client";
+import { createSales, readFile } from "../services/sales-service";
+import { authenticate } from "../middleware/auth";
+import { client } from "../server";
 
 export const router = express.Router();
-const client = new PrismaClient();
 
-router.get("/", async (req, res) => {
-  try {
-    const data = await client.sale.findMany({
-      include: {
-        type: true,
-        product: { include: { vendor: true } },
-        user: true,
-      },
-    });
+router.get(
+  "/",
+  authenticate,
+  async (req: Request, res: Response): Promise<any> => {
+    try {
+      const data = await client.sale.findMany({
+        include: {
+          type: true,
+          product: { include: { vendor: true } },
+          user: true,
+        },
+      });
 
-    res.status(200).json({
-      status: 200,
-      data: data,
-      message: "Dados obtidos com sucesso!",
-    });
-  } catch (error) {
-    console.error(error);
+      return res.status(200).json({
+        status: 200,
+        data: data,
+        message: "Transações obtidas com sucesso!",
+      });
+    } catch (error) {
+      console.error(error);
 
-    res.status(500).json({
-      status: 500,
-      message: "Ocorreu um error ao tentar buscar os dados do servidor!",
-    });
+      return res.status(500).json({
+        status: 500,
+        message: "Ocorreu um error ao tentar buscar os dados do servidor!",
+      });
+    }
   }
-});
+);
 
-router.post("/", multer(multerConfig).single("file"), async (req, res) => {
-  try {
-    const data = await readFile(req.file);
+router.post(
+  "/",
+  authenticate,
+  multer(multerConfig).single("file"),
+  async (req: Request, res: Response): Promise<any> => {
+    try {
+      const file_data = await readFile(req.file);
 
-    res.status(201).json({
-      status: 201,
-      data,
-      message: "Dados obtidos com sucesso!",
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: 500,
-      message: "Ocorreu um error ao tentar enviar os dados ao servidor!",
-    });
+      const data = await createSales(file_data);
+
+      return res.status(201).json({
+        status: 201,
+        data,
+        message: "Arquivos enviado!",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: "Ocorreu um error ao tentar enviar os dados ao servidor!",
+      });
+    }
   }
-});
-
-router.get("/users", async (req, res) => {
-  try {
-    const data = await client.user.findMany();
-
-    res.status(200).json({
-      status: 200,
-      data: data,
-      message: "Dados obtidos com sucesso!",
-    });
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      status: 500,
-      message: "Ocorreu um error ao tentar buscar os dados do servidor!",
-    });
-  }
-});
+);
