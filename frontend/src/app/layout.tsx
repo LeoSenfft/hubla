@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
+import AuthContextProvider from "@/contexts/authContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,13 +32,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-dvh flex flex-col`}
       >
-        <Header />
+        <AuthContextProvider>
+          <Header />
 
-        <div className="flex flex-col flex-1 py-20">{children}</div>
+          <div className="flex flex-col flex-1 py-20">{children}</div>
 
-        <Footer />
+          <Footer />
 
-        <Toaster />
+          <Toaster />
+        </AuthContextProvider>
       </body>
     </html>
   );
