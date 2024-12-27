@@ -21,14 +21,14 @@ export function useUsers() {
         setIsLoading(true);
         const resp = await axiosInstance.get("/users");
 
-        setUsers(resp.data.data ?? []);
+        setUsers(resp.data?.data ?? []);
       } catch (error: any) {
         toast({
           variant: "destructive",
           title: "Algo deu errado.",
           description: error.response.data.message,
         });
-        setError(error.response.data.message);
+        setError(error.response?.data?.message ?? "Erro ao conectar com a api");
         console.error(error);
       } finally {
         setIsLoading(false);

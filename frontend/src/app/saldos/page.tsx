@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useUsers } from "@/hooks/users";
+import { useUsers } from "@/hooks/useUsers";
 
 export default function PageSaldos() {
   const { users, error, isLoading } = useUsers();

@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import axiosInstance from "@/lib/axios-instance";
 import { Button } from "@/components/ui/button";
-import { useSales } from "@/hooks/sales";
+import { useSales } from "@/hooks/useSales";
 import { useToast } from "@/hooks/use-toast";
 import { SalesTable } from "@/components/SalesTable";
 
@@ -62,7 +62,7 @@ export default function Home() {
   return (
     <div className="Home">
       <div className="container">
-        <form className="max-w-80 mx-auto" onSubmit={handleSubmit}>
+        <form className="max-w-80 mx-auto mb-10" onSubmit={handleSubmit}>
           <Label htmlFor="picture">Arquivo das transações</Label>
           <Input
             id="picture"
